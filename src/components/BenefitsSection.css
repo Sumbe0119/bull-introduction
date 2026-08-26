@@ -19,35 +19,41 @@
   transform-origin: top;
 }
 
+/* Sticky screen bottom-right — always visible while benefits is on screen */
 .gallery-preview-button {
-  position: relative;
+  position: absolute;
+  right: 20px;
+  bottom: 28px;
+  z-index: 50;
   display: block;
-  margin-left: auto;
-  width: 210px;
+  width: 168px;
   overflow: hidden;
-  border-radius: 14px;
-  border: 1px solid rgba(199, 25, 32, 0.7);
+  border-radius: 12px;
+  border: 1px solid rgba(199, 25, 32, 0.85);
   background: #000;
   text-align: left;
+  cursor: pointer;
   box-shadow:
-    0 0 0 1px rgba(199, 25, 32, 0.2),
-    0 18px 50px rgba(0, 0, 0, 0.5);
+    0 0 0 1px rgba(199, 25, 32, 0.25),
+    0 18px 50px rgba(0, 0, 0, 0.55);
   transition:
-    transform 0.7s ease,
-    border-color 0.7s ease,
-    box-shadow 0.7s ease;
+    transform 0.5s ease,
+    border-color 0.5s ease,
+    box-shadow 0.5s ease;
   animation: galleryPreviewIn 900ms cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 .gallery-preview-button:hover {
   transform: translateY(-4px);
   border-color: #e1272f;
-  box-shadow: 0 0 35px rgba(199, 25, 32, 0.32);
+  box-shadow: 0 0 35px rgba(199, 25, 32, 0.4);
 }
 
 @media (min-width: 768px) {
   .gallery-preview-button {
-    width: 240px;
+    right: 28px;
+    bottom: 32px;
+    width: 190px;
   }
 }
 
@@ -71,12 +77,12 @@
 .gallery-preview-overlay {
   position: absolute;
   inset: 0;
-  background: rgba(0, 0, 0, 0.35);
+  background: rgba(0, 0, 0, 0.3);
   transition: background-color 0.5s ease;
 }
 
 .gallery-preview-button:hover .gallery-preview-overlay {
-  background: rgba(0, 0, 0, 0.2);
+  background: rgba(0, 0, 0, 0.15);
 }
 
 .gallery-preview-gradient {
@@ -84,28 +90,27 @@
   inset: 0;
   background: linear-gradient(
     to top,
-    rgba(0, 0, 0, 0.7),
+    rgba(0, 0, 0, 0.75),
     transparent,
-    rgba(0, 0, 0, 0.1)
+    rgba(0, 0, 0, 0.12)
   );
 }
 
-/* VIEW badge — bottom-right, ~50px */
 .gallery-preview-view {
   position: absolute;
-  right: 8px;
-  bottom: 8px;
+  right: 6px;
+  bottom: 6px;
   z-index: 2;
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  gap: 4px;
+  gap: 3px;
   width: 50px;
   height: 50px;
   border-radius: 8px;
-  background: rgba(0, 0, 0, 0.72);
-  border: 1px solid rgba(225, 39, 47, 0.85);
-  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.45);
+  background: rgba(0, 0, 0, 0.78);
+  border: 1px solid rgba(225, 39, 47, 0.9);
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.5);
   transition:
     transform 0.4s ease,
     background-color 0.4s ease,
@@ -114,7 +119,7 @@
 
 .gallery-preview-button:hover .gallery-preview-view {
   transform: scale(1.05);
-  background: rgba(199, 25, 32, 0.92);
+  background: rgba(199, 25, 32, 0.95);
   border-color: #e1272f;
 }
 
@@ -131,7 +136,9 @@
   font-size: 11px;
   line-height: 1;
   color: #e1272f;
-  transition: transform 0.4s ease;
+  transition:
+    transform 0.4s ease,
+    color 0.4s ease;
 }
 
 .gallery-preview-button:hover .gallery-preview-view-arrow {
@@ -141,8 +148,8 @@
 
 .gallery-preview-top {
   position: absolute;
-  top: 12px;
-  left: 16px;
+  top: 10px;
+  left: 12px;
   z-index: 2;
   display: flex;
   align-items: center;
@@ -150,7 +157,7 @@
 }
 
 .gallery-preview-top-line {
-  width: 16px;
+  width: 14px;
   height: 2px;
   background: #c71920;
 }
@@ -160,35 +167,32 @@
   font-weight: 600;
   letter-spacing: 0.2em;
   text-transform: uppercase;
-  color: rgba(255, 255, 255, 0.7);
+  color: rgba(255, 255, 255, 0.85);
 }
 
 .gallery-preview-bottom {
   position: absolute;
-  left: 16px;
-  right: 64px;
-  bottom: 12px;
+  left: 12px;
+  right: 58px;
+  bottom: 10px;
   z-index: 1;
-  display: flex;
-  align-items: flex-end;
-  justify-content: space-between;
-  gap: 12px;
 }
 
 .gallery-preview-label {
-  max-width: 140px;
+  display: block;
+  max-width: 110px;
   font-size: 7px;
   font-weight: 600;
-  line-height: 1.2;
-  letter-spacing: 0.14em;
+  line-height: 1.25;
+  letter-spacing: 0.12em;
   text-transform: uppercase;
-  color: rgba(255, 255, 255, 0.65);
+  color: rgba(255, 255, 255, 0.8);
 }
 
 .gallery-preview-progress {
   width: 100%;
   height: 2px;
-  background: rgba(255, 255, 255, 0.1);
+  background: rgba(255, 255, 255, 0.15);
 }
 
 .gallery-preview-progress-bar {
@@ -227,11 +231,8 @@
 @keyframes benefitDetailIn {
   0% {
     opacity: 0;
-    transform: translateY(45px) scale(0.975);
-    filter: blur(10px);
-  }
-  55% {
-    opacity: 0.85;
+    transform: translateY(28px) scale(0.98);
+    filter: blur(8px);
   }
   100% {
     opacity: 1;
@@ -255,8 +256,8 @@
 @keyframes galleryPreviewIn {
   0% {
     opacity: 0;
-    transform: translateY(30px) scale(0.94);
-    filter: blur(8px);
+    transform: translateY(24px) scale(0.96);
+    filter: blur(6px);
   }
   100% {
     opacity: 1;
