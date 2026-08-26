@@ -1,0 +1,31 @@
+@import 'tailwindcss';
+
+@theme {
+  --color-cream: #f4ede2;
+  --color-surface: #faf7f2;
+  --color-surface-muted: #e8dfd2;
+  --color-near-black: #151210;
+  --color-deep-red: #7a1f1f;
+  --color-bull-red: #a62025;
+  --color-gold: #b98a3e;
+  --color-muted: #5c5248;
+  --font-serif: Georgia, 'Times New Roman', serif;
+}
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+  }
+
+  body {
+    @apply bg-cream text-near-black font-sans antialiased;
+  }
+
+  a {
+    @apply no-underline;
+  }
+
+  img {
+    @apply block max-w-full;
+  }
+}
