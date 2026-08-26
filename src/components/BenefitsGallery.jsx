@@ -634,7 +634,6 @@ export default function BenefitGallery({
           }
 
         }
-
       `}</style>
 
     </div>

@@ -21,6 +21,12 @@ export default function Header() {
         >
           Хөнгөлөлт
         </a>
+        <a
+          href="#sketch"
+          className="text-xs uppercase tracking-[0.08em] text-cream/80 transition-colors hover:text-cream md:text-[13px]"
+        >
+          Sketch
+        </a>
       </nav>
     </header>
   )

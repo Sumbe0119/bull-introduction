@@ -1,0 +1,451 @@
+/* SketchSection.css */
+
+.sketch-section {
+  position: relative;
+  background: #0a0807;
+  color: #fff;
+}
+
+.sketch-sticky {
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  overflow: hidden;
+  background:
+    radial-gradient(ellipse 70% 55% at 50% 45%, rgba(199, 25, 32, 0.14), transparent 62%),
+    linear-gradient(105deg, #1a1210 0%, #0c0a09 42%, #080706 100%);
+}
+
+.sketch-layout {
+  display: grid;
+  height: 100%;
+  width: 100%;
+  align-items: stretch;
+  grid-template-columns: 1fr;
+}
+
+@media (min-width: 1024px) {
+  .sketch-layout {
+    grid-template-columns: var(--left-col, 38%) minmax(0, 1fr);
+  }
+}
+
+.sketch-copy {
+  position: relative;
+  z-index: 2;
+  display: none;
+  flex-direction: column;
+  justify-content: center;
+  height: 100%;
+  padding: 6rem 2.5rem 5rem 3rem;
+  overflow: hidden;
+  background: linear-gradient(180deg, #1c1412 0%, #120e0c 100%);
+  border-right: 1px solid rgba(255, 255, 255, 0.08);
+  will-change: opacity, transform;
+}
+
+@media (min-width: 1024px) {
+  .sketch-copy {
+    display: flex;
+  }
+}
+
+.sketch-copy-icon {
+  width: 42px;
+  height: 42px;
+  margin-bottom: 2rem;
+  border-radius: 999px;
+  background: #0a0807;
+  object-fit: contain;
+}
+
+.sketch-eyebrow {
+  margin: 0 0 1.25rem;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.32em;
+  text-transform: uppercase;
+  color: #ff3b42;
+}
+
+.sketch-heading {
+  margin: 0;
+  max-width: 14ch;
+  font-family: Georgia, 'Times New Roman', serif;
+  font-size: clamp(2rem, 3.2vw, 3.4rem);
+  font-weight: 400;
+  line-height: 1.05;
+  letter-spacing: -0.03em;
+  color: #fff;
+}
+
+.sketch-heading span {
+  display: block;
+  margin-top: 0.15em;
+  font-style: italic;
+  color: rgba(255, 255, 255, 0.88);
+}
+
+.sketch-body {
+  margin: 1.75rem 0 0;
+  max-width: 34ch;
+  font-size: 0.95rem;
+  line-height: 1.75;
+  color: rgba(255, 255, 255, 0.62);
+}
+
+.sketch-divider {
+  width: 100%;
+  max-width: 280px;
+  height: 0;
+  margin: 2.25rem 0;
+  border: none;
+  border-top: 1px dotted rgba(255, 255, 255, 0.35);
+}
+
+.sketch-callout {
+  margin: 0;
+  font-size: clamp(1.35rem, 2.2vw, 2rem);
+  font-weight: 700;
+  line-height: 1.15;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: #fff;
+}
+
+.sketch-stage {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  min-height: 100vh;
+  padding: 5rem 1.25rem 4.5rem;
+  overflow: hidden;
+}
+
+.sketch-glow {
+  pointer-events: none;
+  position: absolute;
+  left: 50%;
+  top: 42%;
+  width: min(70vw, 720px);
+  height: min(70vw, 720px);
+  transform: translate(-50%, -50%);
+  border-radius: 999px;
+  background: radial-gradient(circle, rgba(199, 25, 32, 0.35), transparent 68%);
+  filter: blur(40px);
+}
+
+.sketch-frame {
+  position: relative;
+  z-index: 1;
+  width: min(88vw, 860px);
+  max-height: min(62vh, 680px);
+  transform-origin: center center;
+  will-change: transform;
+}
+
+.sketch-image {
+  display: block;
+  user-select: none;
+  will-change: opacity, transform;
+}
+
+.sketch-image--blueprint {
+  position: relative;
+  z-index: 1;
+  width: 100%;
+  height: auto;
+  max-height: min(70vh, 760px);
+  object-fit: contain;
+  object-position: center;
+  filter: drop-shadow(0 0 40px rgba(199, 25, 32, 0.18));
+}
+
+.sketch-mark {
+  position: absolute;
+  left: 50%;
+  top: 36%;
+  z-index: 2;
+  width: min(72vw, 460px);
+  aspect-ratio: 1;
+  transform-origin: center center;
+  will-change: transform, opacity;
+  pointer-events: none;
+}
+
+.sketch-guides {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+  animation: sketchGuidesSpin 80s linear infinite;
+}
+
+.sketch-guide-ring {
+  fill: none;
+  stroke: rgba(255, 90, 70, 0.45);
+  stroke-width: 1;
+}
+
+.sketch-guide-ring--dashed {
+  stroke: rgba(255, 255, 255, 0.28);
+  stroke-dasharray: 5 7;
+  stroke-width: 1.1;
+}
+
+.sketch-guide-ring--soft {
+  stroke: rgba(199, 25, 32, 0.22);
+  stroke-width: 0.8;
+}
+
+.sketch-guide-line {
+  stroke: rgba(255, 255, 255, 0.2);
+  stroke-width: 0.7;
+}
+
+.sketch-guide-line--soft {
+  stroke: rgba(199, 25, 32, 0.28);
+  stroke-width: 0.6;
+  stroke-dasharray: 3 6;
+}
+
+.sketch-guide-accent {
+  stroke: #ff3b42;
+  stroke-width: 1.4;
+}
+
+.sketch-guide-bracket {
+  fill: none;
+  stroke: rgba(255, 255, 255, 0.5);
+  stroke-width: 1.3;
+}
+
+.sketch-guide-node {
+  fill: #ff3b42;
+  stroke: none;
+}
+
+.sketch-guide-node--sm {
+  fill: rgba(255, 59, 66, 0.75);
+}
+
+.sketch-image--main {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  z-index: 2;
+  width: auto;
+  height: min(48vh, 340px);
+  max-width: min(58vw, 340px);
+  transform: translate(-50%, -50%);
+  object-fit: contain;
+  object-position: center;
+  filter:
+    brightness(1.45)
+    contrast(1.12)
+    drop-shadow(0 0 22px rgba(255, 59, 66, 0.65))
+    drop-shadow(0 0 60px rgba(199, 25, 32, 0.7));
+}
+
+.sketch-mark-label {
+  position: absolute;
+  right: 6%;
+  bottom: 10%;
+  z-index: 3;
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+  text-align: right;
+  font-size: 7px;
+  font-weight: 700;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.55);
+}
+
+@keyframes sketchGuidesSpin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.sketch-guides--spin {
+  animation: sketchGuidesSpin 64s linear infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .sketch-guides--spin {
+    animation: none;
+  }
+}
+
+.sketch-letters {
+  position: relative;
+  z-index: 3;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  gap: clamp(32px, 5vw, 64px);
+  margin-top: clamp(0.75rem, 2vh, 1.5rem);
+  width: auto;
+  max-width: min(94vw, 860px);
+  pointer-events: none;
+}
+
+.sketch-letters--hero {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  z-index: 4;
+  margin: 0;
+  width: min(96vw, 1400px);
+  max-width: none;
+  gap: clamp(40px, 6vw, 96px);
+  transform-origin: center center;
+  will-change: transform, opacity;
+}
+
+.sketch-letters-group {
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  gap: 0;
+}
+
+.sketch-letter {
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  width: clamp(44px, 6.5vw, 72px);
+  height: clamp(56px, 8vh, 88px);
+  flex: 0 0 auto;
+  overflow: visible;
+  will-change: transform, opacity;
+  transform-origin: center bottom;
+}
+
+.sketch-letters--hero .sketch-letter {
+  width: clamp(72px, 12vw, 180px);
+  height: clamp(100px, 22vh, 280px);
+}
+
+.sketch-letter img {
+  display: block;
+  width: auto;
+  height: 100%;
+  max-width: 100%;
+  object-fit: contain;
+  object-position: center bottom;
+  user-select: none;
+  opacity: 0.95;
+  filter: drop-shadow(0 0 14px rgba(199, 25, 32, 0.4));
+}
+
+.sketch-letters--hero .sketch-letter img {
+  filter:
+    brightness(1.35)
+    drop-shadow(0 0 22px rgba(255, 59, 66, 0.55))
+    drop-shadow(0 0 50px rgba(199, 25, 32, 0.45));
+}
+
+.sketch-meta {
+  position: absolute;
+  right: 1.5rem;
+  bottom: 1.75rem;
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+  text-align: right;
+  font-size: 8px;
+  font-weight: 600;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.45);
+}
+
+@media (min-width: 768px) {
+  .sketch-meta {
+    right: 2.5rem;
+    bottom: 2.25rem;
+  }
+}
+
+.sketch-progress {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 5;
+  height: 1px;
+  background: rgba(255, 255, 255, 0.1);
+}
+
+.sketch-progress-bar {
+  height: 100%;
+  background: #c71920;
+}
+
+@media (max-width: 1023px) {
+  .sketch-stage {
+    padding-top: 6.5rem;
+    justify-content: center;
+  }
+
+  .sketch-copy {
+    display: flex;
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 0;
+    z-index: 4;
+    height: auto;
+    max-width: none;
+    padding: 5.5rem 1.25rem 1rem;
+    background: linear-gradient(
+      180deg,
+      rgba(12, 10, 9, 0.96) 0%,
+      rgba(12, 10, 9, 0.55) 70%,
+      transparent 100%
+    );
+    border-right: none;
+  }
+
+  .sketch-heading {
+    max-width: 16ch;
+    font-size: clamp(1.6rem, 7vw, 2.2rem);
+  }
+
+  .sketch-body,
+  .sketch-divider,
+  .sketch-callout {
+    display: none;
+  }
+
+  .sketch-copy-icon {
+    width: 32px;
+    height: 32px;
+    margin-bottom: 1rem;
+  }
+
+  .sketch-letters--hero {
+    width: min(96vw, 100%);
+    gap: clamp(24px, 5vw, 48px);
+  }
+
+  .sketch-letters--hero .sketch-letter {
+    width: clamp(48px, 11vw, 96px);
+    height: clamp(72px, 16vh, 160px);
+  }
+
+  .sketch-frame {
+    width: min(92vw, 640px);
+  }
+}
