@@ -1,5 +1,37 @@
 @import 'tailwindcss';
 
+@font-face {
+  font-family: 'Zona Pro';
+  src: url('/fonts/ZONAPRO-LIGHT.TTF') format('truetype');
+  font-weight: 300;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Zona Pro';
+  src: url('/fonts/ZONAPRO-REGULAR.TTF') format('truetype');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Zona Pro';
+  src: url('/fonts/ZONAPRO-SEMIBOLD.TTF') format('truetype');
+  font-weight: 600;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Zona Pro';
+  src: url('/fonts/ZONAPRO-BOLD.TTF') format('truetype');
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+
 @theme {
   --color-cream: #f4ede2;
   --color-surface: #faf7f2;
@@ -9,16 +41,27 @@
   --color-bull-red: #a62025;
   --color-gold: #b98a3e;
   --color-muted: #5c5248;
-  --font-serif: Georgia, 'Times New Roman', serif;
+  --font-sans: 'Zona Pro', system-ui, sans-serif;
+  --font-serif: 'Zona Pro', system-ui, sans-serif;
 }
 
 @layer base {
   html {
     scroll-behavior: smooth;
+    --site-header-h: 4.35rem;
+    background: #0a0807;
+    scrollbar-width: thin;
+    scrollbar-color: #bbb transparent;
+  }
+
+  @media (min-width: 768px) {
+    html {
+      --site-header-h: 5.15rem;
+    }
   }
 
   body {
-    @apply bg-cream text-near-black font-sans antialiased;
+    @apply bg-[#0a0807] text-near-black font-sans antialiased;
   }
 
   a {
@@ -27,5 +70,30 @@
 
   img {
     @apply block max-w-full;
+  }
+
+  ::-webkit-scrollbar {
+    width: 10px;
+    height: 10px;
+  }
+
+  ::-webkit-scrollbar-track {
+    background: transparent;
+  }
+
+  ::-webkit-scrollbar-thumb {
+    background: #f5f0e6;
+    border: 0;
+    border-radius: 0;
+  }
+
+  ::-webkit-scrollbar-button {
+    display: none;
+    width: 0;
+    height: 0;
+  }
+
+  ::-webkit-scrollbar-corner {
+    background: transparent;
   }
 }

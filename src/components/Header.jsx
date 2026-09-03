@@ -1,33 +1,55 @@
-export default function Header() {
-  return (
-    <header className="absolute left-0 top-0 z-50 flex w-full items-center justify-between px-5 py-4 md:px-8">
-      <a href="#intro" className="flex items-center gap-3 text-cream">
-        <img src="/bull-log.png" alt="The Bull" className="h-9 w-9 rounded-full bg-[#0a0807] object-contain" />
-        <span className="text-sm uppercase tracking-[0.14em]">
-          THE <strong className="font-bold text-deep-red">BULL</strong>
-        </span>
-      </a>
+import { useEffect, useState } from "react";
+import "./Header.css";
 
-      <nav className="flex items-center gap-5 md:gap-7">
-        <a
-          href="#intro"
-          className="text-xs uppercase tracking-[0.08em] text-cream/80 transition-colors hover:text-cream md:text-[13px]"
-        >
-          Intro
-        </a>
-        <a
-          href="#benefits"
-          className="text-xs uppercase tracking-[0.08em] text-cream/80 transition-colors hover:text-cream md:text-[13px]"
-        >
-          Хөнгөлөлт
-        </a>
-        <a
-          href="#sketch"
-          className="text-xs uppercase tracking-[0.08em] text-cream/80 transition-colors hover:text-cream md:text-[13px]"
-        >
-          Sketch
-        </a>
+const LINKS = [
+  { id: "sketch", label: "Sketch" },
+  { id: "benefits", label: "Benefits" },
+  { id: "benefits-gallery", label: "Gallery" },
+  { id: "intro", label: "Intro" },
+];
+
+export default function Header() {
+  const [activeId, setActiveId] = useState(LINKS[0].id);
+
+  useEffect(() => {
+    const ids = LINKS.map((link) => link.id);
+
+    const updateActive = () => {
+      const mark = window.innerHeight * 0.32;
+      let next = ids[0];
+
+      for (const id of ids) {
+        const el = document.getElementById(id);
+        if (!el) continue;
+        const rect = el.getBoundingClientRect();
+        if (rect.top <= mark && rect.bottom > mark) {
+          next = id;
+          break;
+        }
+      }
+
+      setActiveId((prev) => (prev === next ? prev : next));
+    };
+
+    updateActive();
+    window.addEventListener("scroll", updateActive, { passive: true });
+    window.addEventListener("resize", updateActive);
+    return () => {
+      window.removeEventListener("scroll", updateActive);
+      window.removeEventListener("resize", updateActive);
+    };
+  }, []);
+
+  return (
+    <header className="site-header">
+      <div></div>
+      <nav className="site-nav" aria-label="Sections">
+        {LINKS.map((link) => (
+          <a key={link.id} href={`#${link.id}`} className={`site-nav-link${activeId === link.id ? " is-active" : ""}`}>
+            {link.label}
+          </a>
+        ))}
       </nav>
     </header>
-  )
+  );
 }

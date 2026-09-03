@@ -1,5 +1,4 @@
 import { useEffect, useRef, useState } from "react";
-import BenefitsGallery from "./BenefitsGallery";
 import "./BenefitsSection.css";
 
 const BENEFIT_ITEMS = [
@@ -28,6 +27,10 @@ const BENEFIT_ITEMS = [
       {
         src: "/benefits/best/03.jpg",
         caption: "Нөхцөлийг хангасан ажилтанд 500,000₮-ийн нэг удаагийн урамшуулал олгоно.",
+      },
+      {
+        src: "/benefits/best/04.jpg",
+        caption: "Шинэ ажилтныг багийн нийт ур чадварын хөгжлийг дэмжсэн сургагч багшийн хөдөлмөрийг үнэлнэ.",
       },
     ],
   },
@@ -240,6 +243,13 @@ const BENEFIT_ITEMS = [
 
 const ITEM_VH = 100;
 
+export const GALLERY_BENEFIT = {
+  id: "benefits-gallery",
+  eyebrow: "PEOPLE & CULTURE",
+  label: "Нэмэгдэл & урамшуулал",
+  gallery: BENEFIT_ITEMS.flatMap((item) => item.gallery || []),
+};
+
 export default function BenefitsSection() {
   const sectionRef = useRef(null);
   const activeIndexRef = useRef(0);
@@ -247,9 +257,6 @@ export default function BenefitsSection() {
 
   const [activeIndex, setActiveIndex] = useState(0);
   const [progress, setProgress] = useState(0);
-
-  // Gallery зөвхөн preview товчоор нээгдэнэ
-  const [galleryBenefit, setGalleryBenefit] = useState(null);
 
   const active = BENEFIT_ITEMS[activeIndex];
 
@@ -305,7 +312,7 @@ export default function BenefitsSection() {
   useEffect(() => {
     const onWheel = (e) => {
       const section = sectionRef.current;
-      if (!section || galleryBenefit) return;
+      if (!section) return;
 
       const rect = section.getBoundingClientRect();
       const pinned = rect.top <= 0 && rect.bottom > window.innerHeight;
@@ -332,31 +339,22 @@ export default function BenefitsSection() {
 
     window.addEventListener("wheel", onWheel, { passive: false });
     return () => window.removeEventListener("wheel", onWheel);
-  }, [galleryBenefit]);
+  }, []);
 
   const goToBenefit = (index) => {
     scrollToBenefit(index, "smooth");
   };
 
-  const openGallery = () => {
-    setGalleryBenefit(active);
-  };
-
-  const closeGallery = () => {
-    setGalleryBenefit(null);
-  };
-
   return (
-    <>
-      <section
-        ref={sectionRef}
-        id="benefits"
-        className="benefits-section relative bg-[#070605] text-white"
-        style={{
-          height: `${BENEFIT_ITEMS.length * ITEM_VH}vh`,
-        }}
-      >
-        <div className="sticky top-0 h-screen overflow-hidden bg-[#070605]">
+    <section
+      ref={sectionRef}
+      id="benefits"
+      className="benefits-section relative bg-[#070605] text-white"
+      style={{
+        height: `${BENEFIT_ITEMS.length * ITEM_VH}vh`,
+      }}
+    >
+      <div className="sticky top-0 h-screen overflow-hidden bg-[#070605]">
           {/* BACKGROUND */}
           <div className="pointer-events-none absolute inset-0">
             <div className="absolute left-[18%] top-1/2 h-[620px] w-[620px] -translate-y-1/2 rounded-full border border-white/10" />
@@ -366,7 +364,7 @@ export default function BenefitsSection() {
           </div>
 
           {/* HEADER */}
-          <div className="absolute left-0 right-0 top-0 z-30 px-5 pt-7 md:px-8 lg:px-10 lg:pt-9">
+          <div className="absolute left-0 right-0 z-30 px-5 pt-4 md:px-8 lg:px-10 top-[var(--site-header-h)]">
             <div className="flex items-start justify-between border-b border-white/20 pb-5">
               <div className="flex items-center gap-4">
                 <span className="h-[2px] w-8 bg-[#C71920]" />
@@ -374,15 +372,11 @@ export default function BenefitsSection() {
                   People & Culture / Rewards
                 </span>
               </div>
-
-              <div className="hidden text-[9px] uppercase tracking-[0.28em] text-white/55 md:block">
-                Scroll to discover
-              </div>
             </div>
           </div>
 
           {/* MAIN — left-aligned, no centered max container */}
-          <div className="benefits-main relative z-10 grid h-full w-full items-center gap-6 px-4 pt-20 md:px-6 lg:grid-cols-[minmax(420px,48%)_minmax(0,1fr)] lg:gap-8 lg:px-6 lg:pr-20 xl:pr-24">
+          <div className="benefits-main relative z-10 grid h-full w-full items-center gap-6 px-4 pt-28 md:px-6 lg:grid-cols-[minmax(420px,48%)_minmax(0,1fr)] lg:gap-8 lg:px-6 lg:pr-20 lg:pt-32 xl:pr-24">
             {/* LEFT ORBIT */}
             <div className="relative flex h-[50vh] items-center justify-start lg:h-[78vh]">
               <div className="relative ml-[100px] flex h-full w-[min(100%,640px)] items-center justify-center">
@@ -587,49 +581,11 @@ export default function BenefitsSection() {
               />
             </div>
           </div>
-
           <div className="absolute bottom-7 left-5 z-30 hidden items-center gap-3 text-[8px] uppercase tracking-[0.3em] text-white/50 md:flex lg:left-8">
             <span className="scroll-line block h-8 w-px bg-[#C71920]/80" />
             Доош гүйлгэж үзнэ үү
           </div>
-
-          {/* Viewport bottom-right — inside sticky screen */}
-          {!galleryBenefit && (
-            <button
-              type="button"
-              onClick={openGallery}
-              aria-label={`${active.label} зургаар дэлгэрэнгүй үзэх`}
-              className="gallery-preview-button"
-            >
-              <div className="gallery-preview-media">
-                <img
-                  src={active.gallery?.[0]?.src || "/banner.png"}
-                  alt={active.gallery?.[0]?.alt || active.label}
-                />
-                <div className="gallery-preview-overlay" />
-                <div className="gallery-preview-gradient" />
-
-                <div className="gallery-preview-top">
-                  <span className="gallery-preview-top-line" />
-                  <span className="gallery-preview-top-num">{active.number}</span>
-                </div>
-                <div className="gallery-preview-bottom">
-                  <span className="gallery-preview-label">{active.label}</span>
-                </div>
-                {/* <div className="gallery-preview-view" aria-hidden="true">
-                  <span className="gallery-preview-view-text">VIEW</span>
-                  <span className="gallery-preview-view-arrow">→</span>
-                </div> */}
-              </div>
-              <div className="gallery-preview-progress">
-                <div className="gallery-preview-progress-bar" />
-              </div>
-            </button>
-          )}
-        </div>
-      </section>
-
-      {galleryBenefit && <BenefitsGallery benefit={galleryBenefit} onClose={closeGallery} />}
-    </>
+      </div>
+    </section>
   );
 }

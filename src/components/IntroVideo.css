@@ -1,0 +1,123 @@
+/* IntroVideo.css — scroll-scrubbed intro */
+
+.intro-video {
+  position: relative;
+  background: #000;
+}
+
+.intro-video-sticky {
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  overflow: hidden;
+  background: #000;
+}
+
+.intro-video-media {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+  pointer-events: none;
+  will-change: contents;
+}
+
+.intro-video-vignette {
+  pointer-events: none;
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(ellipse 70% 60% at 50% 45%, transparent 35%, rgba(0, 0, 0, 0.35) 100%),
+    linear-gradient(180deg, rgba(0, 0, 0, 0.35) 0%, transparent 22%, transparent 72%, rgba(0, 0, 0, 0.55) 100%);
+}
+
+.intro-video-ui {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 1.75rem 1.5rem 2rem;
+  pointer-events: none;
+}
+
+@media (min-width: 768px) {
+  .intro-video-ui {
+    padding: 2.25rem 2.5rem 2.5rem;
+  }
+}
+
+.intro-video-brand {
+  display: flex;
+  align-items: center;
+  gap: 0.85rem;
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 0.32em;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.7);
+}
+
+.intro-video-line {
+  display: block;
+  width: 2rem;
+  height: 2px;
+  background: #c71920;
+}
+
+.intro-video-hint {
+  display: flex;
+  align-items: center;
+  gap: 0.85rem;
+  font-size: 8px;
+  font-weight: 600;
+  letter-spacing: 0.28em;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.45);
+}
+
+.intro-video-scroll-line {
+  display: block;
+  width: 1px;
+  height: 2rem;
+  background: rgba(199, 25, 32, 0.85);
+  transform-origin: top;
+  animation: introScrollPulse 2.2s ease-in-out infinite;
+}
+
+.intro-video-progress {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 3;
+  height: 2px;
+  background: rgba(255, 255, 255, 0.12);
+}
+
+.intro-video-progress-bar {
+  height: 100%;
+  background: #c71920;
+  will-change: width;
+}
+
+@keyframes introScrollPulse {
+  0%,
+  100% {
+    transform: scaleY(0.35);
+    opacity: 0.35;
+  }
+  50% {
+    transform: scaleY(1);
+    opacity: 1;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .intro-video-scroll-line {
+    animation: none;
+  }
+}
