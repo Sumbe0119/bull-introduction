@@ -42,11 +42,11 @@ function letterMotion(progress, index) {
   const local = word === 0 ? index : index - 3
   const fromCenter = local - (word === 0 ? 1 : 1.5)
   // Longer, readable entrance — staggered letter by letter
-  const start = 0.48 + word * 0.06 + Math.abs(fromCenter) * 0.028 + local * 0.02
-  const raw = range(progress, start, start + 0.16)
+  const start = 0.58 + word * 0.055 + Math.abs(fromCenter) * 0.026 + local * 0.018
+  const raw = range(progress, start, start + 0.15)
   const t = easeOutCubic(raw)
   const punch = easeOutBack(raw)
-  const settle = easeOutCubic(range(progress, start + 0.1, start + 0.22))
+  const settle = easeOutCubic(range(progress, start + 0.09, start + 0.2))
 
   const side = Math.sign(fromCenter) || (index % 2 === 0 ? -1 : 1)
   const x = (1 - t) * side * (160 + Math.abs(fromCenter) * 70)
@@ -98,17 +98,16 @@ export default function SketchSection() {
   }, [])
 
   // Phase A: box expands left + aside exits
-  const expandT = easeOutCubic(range(progress, 0.04, 0.4))
+  const expandT = easeOutCubic(range(progress, 0.04, 0.36))
 
-  // Phase B: black, then readable letter entrance, short hold after
-  const blackIn = easeOutCubic(range(progress, 0.22, 0.42))
-  const blueprintOut = easeOutCubic(range(progress, 0.24, 0.44))
-  // Container stays visible — individual letters drive the animation
-  const lettersGate = easeOutCubic(range(progress, 0.44, 0.5))
-  const lettersHero = easeOutCubic(range(progress, 0.5, 0.78))
-  const lettersTilt = 1 - easeOutCubic(range(progress, 0.52, 0.8))
-  const logoIn = easeOutCubic(range(progress, 0.46, 0.58))
-  const bottomIn = easeOutCubic(range(progress, 0.68, 0.82))
+  // Phase B: fade to black (~+1s longer), then letters
+  const blackIn = easeOutCubic(range(progress, 0.18, 0.52))
+  const blueprintOut = easeOutCubic(range(progress, 0.2, 0.54))
+  const lettersGate = easeOutCubic(range(progress, 0.54, 0.62))
+  const lettersHero = easeOutCubic(range(progress, 0.58, 0.82))
+  const lettersTilt = 1 - easeOutCubic(range(progress, 0.6, 0.84))
+  const logoIn = easeOutCubic(range(progress, 0.56, 0.68))
+  const bottomIn = easeOutCubic(range(progress, 0.74, 0.88))
 
   const asideOpacity = 1 - expandT
   const asideX = expandT * -120
@@ -122,7 +121,7 @@ export default function SketchSection() {
       ref={sectionRef}
       id="sketch"
       className="sketch-section"
-      style={{ height: '320vh' }}
+      style={{ height: '420vh' }}
     >
       <div
         className="sketch-sticky"
