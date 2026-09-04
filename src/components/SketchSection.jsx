@@ -2,14 +2,17 @@ import { useEffect, useRef, useState } from 'react'
 import './SketchSection.css'
 
 const LETTERS = [
-  { src: '/text/text-01.png', char: 'T' },
-  { src: '/text/text-02.png', char: 'H' },
-  { src: '/text/text-03.png', char: 'E' },
-  { src: '/text/text-04.png', char: 'B' },
-  { src: '/text/text-05.png', char: 'U' },
-  { src: '/text/text-06.png', char: 'L' },
-  { src: '/text/text-07.png', char: 'L' },
+  { src: '/new-text/text-1.png?v=2', char: 'T' },
+  { src: '/new-text/text-2.png?v=2', char: 'H' },
+  { src: '/new-text/text-3.png?v=2', char: 'E' },
+  { src: '/new-text/text-4.png?v=2', char: 'B' },
+  { src: '/new-text/text-5.png?v=2', char: 'U' },
+  { src: '/new-text/text-6.png?v=2', char: 'L' },
+  { src: '/new-text/text-7.png?v=2', char: 'L' },
 ]
+
+const MARK_LOGO = '/new-text/main-logo.png?v=2'
+const BOTTOM_TEXT = '/new-text/bottom-text.png?v=2'
 
 function clamp(value, min, max) {
   return Math.min(max, Math.max(min, value))
@@ -52,9 +55,7 @@ function letterMotion(progress, index) {
   const rotateX = (1 - t) * -85
   const rotateY = (1 - t) * -side * 55
   const rotateZ = (1 - punch) * side * (48 + Math.abs(fromCenter) * 22)
-  const scale = 0.2 + punch * 0.85 + settle * 0.1
-  const blur = (1 - t) * 22
-  const glow = t * (0.45 + settle * 0.55)
+  const scale = 0.25 + punch * 0.65 + settle * 0.1
   const opacity = clamp(easeOutCubic(range(progress, start, start + 0.1)) * 1.2, 0, 1)
 
   return {
@@ -66,7 +67,6 @@ function letterMotion(progress, index) {
       rotateZ(${rotateZ}deg)
       scale(${scale})
     `,
-    filter: `blur(${blur}px) brightness(${0.55 + glow})`,
     zIndex: Math.round(10 + t * 10 - Math.abs(fromCenter)),
   }
 }
@@ -107,6 +107,8 @@ export default function SketchSection() {
   const lettersGate = easeOutCubic(range(progress, 0.44, 0.5))
   const lettersHero = easeOutCubic(range(progress, 0.5, 0.78))
   const lettersTilt = 1 - easeOutCubic(range(progress, 0.52, 0.8))
+  const logoIn = easeOutCubic(range(progress, 0.46, 0.58))
+  const bottomIn = easeOutCubic(range(progress, 0.68, 0.82))
 
   const asideOpacity = 1 - expandT
   const asideX = expandT * -120
@@ -181,44 +183,81 @@ export default function SketchSection() {
               style={{
                 opacity: lettersGate,
                 transform: `
-                  translate(-50%, -50%)
+                  translate(-50%, -58%)
                   perspective(1200px)
                   rotateX(${lettersTilt * 18}deg)
-                  scale(${0.88 + lettersHero * 0.12})
+                  scale(${1.05 + lettersHero * 0.12})
                 `,
               }}
               aria-label="THE BULL"
             >
-              <div className="sketch-letters-group">
-                {LETTERS.slice(0, 3).map((letter, index) => {
-                  const motion = letterMotion(progress, index)
+              <div className="sketch-brand">
+                <div className="sketch-letters-group sketch-letters-group--the ">
+                  {LETTERS.slice(0, 3).map((letter, index) => {
+                    const motion = letterMotion(progress, index)
 
-                  return (
-                    <span
-                      key={letter.src}
-                      className="sketch-letter"
-                      style={motion}
-                    >
-                      <img src={letter.src} alt={letter.char} draggable={false} />
-                    </span>
-                  )
-                })}
-              </div>
+                    return (
+                      <span
+                        key={`new-${letter.char}-${index}`}
+                        className="sketch-letter"
+                        style={motion}
+                      >
+                        <img
+                          src={letter.src}
+                          alt={letter.char}
+                          draggable={false}
+                        />
+                      </span>
+                    )
+                  })}
+                </div>
 
-              <div className="sketch-letters-group">
-                {LETTERS.slice(3).map((letter, index) => {
-                  const motion = letterMotion(progress, index + 3)
+                <div
+                  className="sketch-mark-logo"
+                  style={{
+                    opacity: logoIn,
+                    transform: `translateY(${(1 - logoIn) * -28}px) scale(${0.85 + logoIn * 0.15})`,
+                  }}
+                >
+                  <img src={MARK_LOGO} alt="" draggable={false} />
+                </div>
 
-                  return (
-                    <span
-                      key={letter.src}
-                      className="sketch-letter"
-                      style={motion}
-                    >
-                      <img src={letter.src} alt={letter.char} draggable={false} />
-                    </span>
-                  )
-                })}
+                <div className="sketch-brand-right">
+                  <div className="sketch-letters-group sketch-letters-group--bull">
+                    {LETTERS.slice(3).map((letter, index) => {
+                      const i = index + 3
+                      const motion = letterMotion(progress, i)
+
+                      return (
+                        <span
+                          key={`new-${letter.char}-${i}`}
+                          className="sketch-letter"
+                          style={motion}
+                        >
+                          <img
+                            src={letter.src}
+                            alt={letter.char}
+                            draggable={false}
+                          />
+                        </span>
+                      )
+                    })}
+                  </div>
+
+                  <div
+                    className="sketch-bottom-text"
+                    style={{
+                      opacity: bottomIn,
+                      transform: `translateY(${(1 - bottomIn) * 16}px)`,
+                    }}
+                  >
+                    <img
+                      src={BOTTOM_TEXT}
+                      alt="Authentic Hot Pot"
+                      draggable={false}
+                    />
+                  </div>
+                </div>
               </div>
             </div>
           </div>
