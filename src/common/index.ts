@@ -1,4 +1,19 @@
-export const BENEFIT_ITEMS = [
+export type CommonGalleryImage = {
+  src: string
+  alt?: string
+  caption: string
+}
+
+export type CommonBenefitItem = {
+  id: string
+  number: string
+  label: string
+  eyebrow: string
+  description: string
+  gallery: CommonGalleryImage[]
+}
+
+export const BENEFIT_ITEMS: CommonBenefitItem[] = [
     {
       id: 'new-employee',
       number: '01',

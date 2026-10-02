@@ -1,38 +1,44 @@
 import { useEffect, useRef, useState } from "react";
 import "./BenefitsSection.css";
 
-const BENEFIT_ITEMS = [
+export type GalleryImage = {
+  src: string;
+  caption?: string;
+  alt?: string;
+};
+
+export type BenefitGallery = {
+  id: string;
+  eyebrow: string;
+  label: string;
+  gallery: GalleryImage[];
+};
+
+type BenefitItem = {
+  id: string;
+  number: string;
+  label: string;
+  short: string;
+  title: string;
+  description: string;
+  highlight: string;
+  highlightLabel: string;
+  extra: string;
+  values?: [string, string][];
+};
+
+const BENEFIT_ITEMS: BenefitItem[] = [
   {
     id: "new-employee",
     number: "01",
     label: "Шинэ ажилтны урамшуулал",
     short: "12 САР",
-    eyebrow: "NEW EMPLOYEE REWARD",
     title: "Шинэ ажилтны\nурамшуулал",
     description:
       "Шинээр ажилд орсон ажилтны тогтвортой ажиллах хүсэл эрмэлзэл, байгууллагатай урт хугацаанд хамтран ажиллах оролцоог дэмжинэ.",
     highlight: "500,000₮",
     highlightLabel: "Нэг удаагийн урамшуулал",
     extra: "Компанид 12 сар тасралтгүй, тогтвортой ажилласан ажилтанд 500,000₮-ийн урамшуулал олгоно.",
-
-    gallery: [
-      {
-        src: "/benefits/best/01.jpg",
-        caption: "The Bull-д шинэ ажилтнаар нэгдэж, багийн нэг хэсэг болно.",
-      },
-      {
-        src: "/benefits/best/02.jpg",
-        caption: "12 сар тасралтгүй, тогтвортой ажилласан байх шаардлагатай.",
-      },
-      {
-        src: "/benefits/best/03.jpg",
-        caption: "Нөхцөлийг хангасан ажилтанд 500,000₮-ийн нэг удаагийн урамшуулал олгоно.",
-      },
-      {
-        src: "/benefits/best/04.jpg",
-        caption: "Шинэ ажилтныг багийн нийт ур чадварын хөгжлийг дэмжсэн сургагч багшийн хөдөлмөрийг үнэлнэ.",
-      },
-    ],
   },
 
   {
@@ -40,7 +46,6 @@ const BENEFIT_ITEMS = [
     number: "02",
     label: "Удаан жилийн нэмэгдэл",
     short: "1 ЖИЛ +",
-    eyebrow: "LONG SERVICE BENEFIT",
     title: "Удаан жилийн\nнэмэгдэл",
     description:
       "Компанид тогтвортой, урт хугацаанд ажилласан ажилтны туршлага, хувь нэмрийг үнэлж ажилласан жилээс нь хамааруулан сар бүрийн нэмэгдэл олгоно.",
@@ -54,25 +59,6 @@ const BENEFIT_ITEMS = [
       ["5 жил", "250,000₮"],
       ["10 жил", "500,000₮"],
     ],
-
-    gallery: [
-      {
-        src: "/benefits/performance/01.jpg",
-        caption: "1 жил ажилласан ажилтанд сар бүр 50,000₮ нэмэгдэнэ.",
-      },
-      {
-        src: "/benefits/performance/02.jpg",
-        caption: "3 жил ажилласан ажилтанд сар бүр 150,000₮ нэмэгдэнэ.",
-      },
-      {
-        src: "/benefits/performance/03.jpg",
-        caption: "5 жил ажилласан ажилтанд сар бүр 250,000₮ нэмэгдэнэ.",
-      },
-      {
-        src: "/benefits/performance/04.jpg",
-        caption: "10 жил ажилласан ажилтанд сар бүр 500,000₮ нэмэгдэнэ.",
-      },
-    ],
   },
 
   {
@@ -80,7 +66,6 @@ const BENEFIT_ITEMS = [
     number: "03",
     label: "Мэргэжлийн зэргийн нэмэгдэл",
     short: "I · II · III",
-    eyebrow: "PROFESSIONAL GRADE",
     title: "Мэргэжлийн зэргийн\nнэмэгдэл",
     description:
       "Ажилтны мэргэжлийн ур чадварыг тасралтгүй хөгжүүлэх зорилгоор тогооч, зөөгч нарыг мэргэжлийн сургалт, үнэлгээнд хамруулж зэрэг ахих боломжийг бүрдүүлнэ.",
@@ -93,25 +78,6 @@ const BENEFIT_ITEMS = [
       ["II зэрэг", "75,000₮"],
       ["III зэрэг", "50,000₮"],
     ],
-
-    gallery: [
-      {
-        src: "/benefits/professional/01.jpg",
-        caption: "Ажилтнууд мэргэжлийн сургалт, ур чадварын хөгжлийн хөтөлбөрт хамрагдана.",
-      },
-      {
-        src: "/benefits/professional/02.jpg",
-        caption: "I зэрэг — сарын 100,000₮ нэмэгдэл.",
-      },
-      {
-        src: "/benefits/professional/03.jpg",
-        caption: "II зэрэг — сарын 75,000₮ нэмэгдэл.",
-      },
-      {
-        src: "/benefits/professional/04.jpg",
-        caption: "III зэрэг — сарын 50,000₮ нэмэгдэл.",
-      },
-    ],
   },
 
   {
@@ -119,7 +85,6 @@ const BENEFIT_ITEMS = [
     number: "04",
     label: "Манлай, Шилдэг, Сайн ажилтны нэмэгдэл",
     short: "20 · 15 · 10%",
-    eyebrow: "PERFORMANCE RECOGNITION",
     title: "Манлай, Шилдэг, Сайн\nажилтны нэмэгдэл",
     description:
       "Жил бүр ажилтнуудын мэдлэг, ур чадвар, ажлын гүйцэтгэлийг нэгдсэн үнэлгээгээр тодорхойлж, өндөр үр дүн үзүүлсэн ажилтнуудыг Манлай, Шилдэг, Сайн ажилтнаар шалгаруулна.",
@@ -132,25 +97,6 @@ const BENEFIT_ITEMS = [
       ["Шилдэг · 6–10%", "15%"],
       ["Сайн · 11–20%", "10%"],
     ],
-
-    gallery: [
-      {
-        src: "/benefits/best/01.jpg",
-        caption: "Ур чадварын нэгдсэн үнэлгээгээр ажилтнуудын гүйцэтгэлийг үнэлнэ.",
-      },
-      {
-        src: "/benefits/best/02.jpg",
-        caption: "Манлай ажилтан — үндсэн цалингийн 20%-ийн нэмэгдэл.",
-      },
-      {
-        src: "/benefits/best/03.jpg",
-        caption: "Шилдэг ажилтан — үндсэн цалингийн 15%-ийн нэмэгдэл.",
-      },
-      {
-        src: "/benefits/best/04.jpg",
-        caption: "Сайн ажилтан — үндсэн цалингийн 10%-ийн нэмэгдэл.",
-      },
-    ],
   },
 
   {
@@ -158,28 +104,12 @@ const BENEFIT_ITEMS = [
     number: "05",
     label: "Жилийн шилдэг ажилтан",
     short: "BEST",
-    eyebrow: "EMPLOYEE OF THE YEAR",
     title: "Жилийн шилдэг\nажилтан",
     description:
       "Жилийн турш тогтвортой өндөр гүйцэтгэл үзүүлж, баг болон байгууллагын үр дүнд бодит хувь нэмэр оруулсан ажилтны хөдөлмөрийг онцлон үнэлнэ.",
     highlight: "BEST",
     highlightLabel: "Жилийн онцлох үнэлгээ",
     extra: "Ажлын үр дүн, оролцоо, манлайлал болон байгууллагад оруулсан хувь нэмрийг үндэслэн шалгаруулна.",
-
-    gallery: [
-      {
-        src: "/benefits/performance/01.jpg",
-        caption: "Жилийн турш гаргасан ажлын үр дүнг үнэлнэ.",
-      },
-      {
-        src: "/benefits/performance/02.jpg",
-        caption: "Багийн хөгжилд оруулсан хувь нэмэр, манлайллыг үнэлнэ.",
-      },
-      {
-        src: "/benefits/performance/03.jpg",
-        caption: "Жилийн шилдэг ажилтныг онцгойлон урамшуулна.",
-      },
-    ],
   },
 
   {
@@ -187,28 +117,12 @@ const BENEFIT_ITEMS = [
     number: "06",
     label: "АГҮ-ийн тэргүүлэгч",
     short: "TOP",
-    eyebrow: "TOP PERFORMANCE",
     title: "АГҮ-ийн\nтэргүүлэгч",
     description:
       "Ажлын гүйцэтгэлийн үнэлгээгээр тогтмол өндөр үр дүн үзүүлж, зорилгоо амжилттай биелүүлсэн ажилтны гүйцэтгэлийг бодитоор үнэлнэ.",
     highlight: "TOP",
     highlightLabel: "Гүйцэтгэлийн тэргүүлэгч",
     extra: "Үр дүн, бүтээмж, хариуцлага болон ажлын чанарт тулгуурлан тэргүүлэгч ажилтныг тодорхойлно.",
-
-    gallery: [
-      {
-        src: "/benefits/professional/01.jpg",
-        caption: "Ажлын зорилт болон гүйцэтгэлийг бодит үр дүнгээр үнэлнэ.",
-      },
-      {
-        src: "/benefits/professional/02.jpg",
-        caption: "Тогтвортой өндөр үзүүлэлттэй ажилтнуудыг онцолно.",
-      },
-      {
-        src: "/benefits/professional/03.jpg",
-        caption: "Үр дүн, бүтээмж, хариуцлага, ажлын чанарыг харгалзан үнэлнэ.",
-      },
-    ],
   },
 
   {
@@ -216,51 +130,147 @@ const BENEFIT_ITEMS = [
     number: "07",
     label: "Сургагч багшийн нэмэгдэл",
     short: "TRAINER",
-    eyebrow: "TRAINER BENEFIT",
     title: "Сургагч багшийн\nнэмэгдэл",
     description:
       "Байгууллагын мэдлэг, туршлагыг дараагийн ажилтанд зөв дамжуулж, шинэ ажилтныг богино хугацаанд дадлагажуулахад хувь нэмэр оруулсан ажилтны хөдөлмөрийг үнэлнэ.",
     highlight: "TRAINER",
     highlightLabel: "Мэдлэг түгээх урамшуулал",
     extra: "Шинэ ажилтан сургах, дадлагажуулах болон багийн ур чадварын хөгжлийг дэмжсэн ажилтанд нэмэгдэл олгоно.",
-
-    gallery: [
-      {
-        src: "/benefits/best/01.jpg",
-        caption: "Шинэ ажилтныг ажлын байранд сургаж, дадлагажуулна.",
-      },
-      {
-        src: "/benefits/best/02.jpg",
-        caption: "Туршлага, мэдлэгээ бусад ажилтантай хуваалцана.",
-      },
-      {
-        src: "/benefits/best/03.jpg",
-        caption: "Багийн нийт ур чадварын хөгжлийг дэмжсэн сургагч багшийн хөдөлмөрийг үнэлнэ.",
-      },
-    ],
   },
 ];
 
+// BENEFIT_ITEMS-тэй ижил дарааллаар (индексээр холбогдоно)
+const BENEFIT_EYEBROWS: string[] = [
+  "NEW EMPLOYEE REWARD", // 01 new-employee
+  "LONG SERVICE BENEFIT", // 02 long-service
+  "PROFESSIONAL GRADE", // 03 professional-grade
+  "PERFORMANCE RECOGNITION", // 04 performance
+  "EMPLOYEE OF THE YEAR", // 05 best
+  "TOP PERFORMANCE", // 06 agu
+  "TRAINER BENEFIT", // 07 trainer
+];
+
+export const GALLERIES_NEW_EMPLOYEE: BenefitGallery = {
+  id: "new-employee",
+  eyebrow: "NEW EMPLOYEE REWARD",
+  label: "Шинэ ажилтны урамшуулал",
+  gallery: [
+    {
+      src: "/benefits/best/01.jpg",
+      caption: "The Bull-д шинэ ажилтнаар нэгдэж, багийн нэг хэсэг болно.",
+    },
+    {
+      src: "/benefits/best/02.jpg",
+      caption: "12 сар тасралтгүй, тогтвортой ажилласан байх шаардлагатай.",
+    },
+    {
+      src: "/benefits/best/03.jpg",
+      caption: "Нөхцөлийг хангасан ажилтанд 500,000₮-ийн нэг удаагийн урамшуулал олгоно.",
+    },
+    {
+      src: "/benefits/best/04.jpg",
+      caption: "Шинэ ажилтныг багийн нийт ур чадварын хөгжлийг дэмжсэн сургагч багшийн хөдөлмөрийг үнэлнэ.",
+    },
+  ],
+};
+
+export const GALLERIES_LONG_SERVICE: BenefitGallery = {
+  id: "long-service",
+  eyebrow: "LONG SERVICE BENEFIT",
+  label: "Удаан жилийн нэмэгдэл",
+  gallery: [
+    {
+      src: "/benefits/performance/01.jpg",
+      caption: "1 жил ажилласан ажилтанд сар бүр 50,000₮ нэмэгдэнэ.",
+    },
+    {
+      src: "/benefits/performance/02.jpg",
+      caption: "3 жил ажилласан ажилтанд сар бүр 150,000₮ нэмэгдэнэ.",
+    },
+    {
+      src: "/benefits/performance/03.jpg",
+      caption: "5 жил ажилласан ажилтанд сар бүр 250,000₮ нэмэгдэнэ.",
+    },
+    {
+      src: "/benefits/performance/04.jpg",
+      caption: "10 жил ажилласан ажилтанд сар бүр 500,000₮ нэмэгдэнэ.",
+    },
+  ],
+};
+
+export const GALLERIES_PROFESSIONAL: BenefitGallery = {
+  id: "professional-grade",
+  eyebrow: "PROFESSIONAL GRADE",
+  label: "Мэргэжлийн зэргийн нэмэгдэл",
+  gallery: [
+    {
+      src: "/benefits/professional/01.jpg",
+      caption: "Ажилтнууд мэргэжлийн сургалт, ур чадварын хөгжлийн хөтөлбөрт хамрагдана.",
+    },
+    {
+      src: "/benefits/professional/02.jpg",
+      caption: "I зэрэг — сарын 100,000₮ нэмэгдэл.",
+    },
+    {
+      src: "/benefits/professional/03.jpg",
+      caption: "II зэрэг — сарын 75,000₮ нэмэгдэл.",
+    },
+    {
+      src: "/benefits/professional/04.jpg",
+      caption: "III зэрэг — сарын 50,000₮ нэмэгдэл.",
+    },
+  ],
+};
+
+export const GALLERIES_PERFORMANCE: BenefitGallery = {
+  id: "performance",
+  eyebrow: "PERFORMANCE RECOGNITION",
+  label: "Манлай, Шилдэг, Сайн ажилтны нэмэгдэл",
+  gallery: [
+    {
+      src: "/benefits/best/01.jpg",
+      caption: "Ур чадварын нэгдсэн үнэлгээгээр ажилтнуудын гүйцэтгэлийг үнэлнэ.",
+    },
+    {
+      src: "/benefits/best/02.jpg",
+      caption: "Манлай ажилтан — үндсэн цалингийн 20%-ийн нэмэгдэл.",
+    },
+    {
+      src: "/benefits/best/03.jpg",
+      caption: "Шилдэг ажилтан — үндсэн цалингийн 15%-ийн нэмэгдэл.",
+    },
+    {
+      src: "/benefits/best/04.jpg",
+      caption: "Сайн ажилтан — үндсэн цалингийн 10%-ийн нэмэгдэл.",
+    },
+  ],
+};
+
 const ITEM_VH = 100;
 
-export const GALLERY_BENEFIT = {
+export const GALLERY_BENEFIT: BenefitGallery = {
   id: "benefits-gallery",
   eyebrow: "PEOPLE & CULTURE",
   label: "Нэмэгдэл & урамшуулал",
-  gallery: BENEFIT_ITEMS.flatMap((item) => item.gallery || []),
+  gallery: [
+    GALLERIES_NEW_EMPLOYEE,
+    GALLERIES_LONG_SERVICE,
+    GALLERIES_PROFESSIONAL,
+    GALLERIES_PERFORMANCE,
+  ].flatMap((g) => g.gallery),
 };
 
 export default function BenefitsSection() {
-  const sectionRef = useRef(null);
-  const activeIndexRef = useRef(0);
-  const wheelLockRef = useRef(false);
+  const sectionRef = useRef<HTMLElement>(null);
+  const activeIndexRef = useRef<number>(0);
+  const wheelLockRef = useRef<boolean>(false);
 
   const [activeIndex, setActiveIndex] = useState(0);
   const [progress, setProgress] = useState(0);
 
   const active = BENEFIT_ITEMS[activeIndex];
 
-  const scrollToBenefit = (index, behavior = "smooth") => {
+  const scrollToBenefit = (index: number, behavior: ScrollBehavior = "smooth") => {
     const section = sectionRef.current;
     if (!section) return;
 
@@ -310,7 +320,7 @@ export default function BenefitsSection() {
 
   // Нэг гүйлгэлт = дараагийн benefit
   useEffect(() => {
-    const onWheel = (e) => {
+    const onWheel = (e: WheelEvent) => {
       const section = sectionRef.current;
       if (!section) return;
 
@@ -341,7 +351,7 @@ export default function BenefitsSection() {
     return () => window.removeEventListener("wheel", onWheel);
   }, []);
 
-  const goToBenefit = (index) => {
+  const goToBenefit = (index: number) => {
     scrollToBenefit(index, "smooth");
   };
 
@@ -478,7 +488,7 @@ export default function BenefitsSection() {
                   </span>
                   <span className="h-px w-10 bg-[#C71920]" />
                   <span className="text-[9px] font-semibold uppercase tracking-[0.3em] text-white/60">
-                    {active.eyebrow}
+                    {BENEFIT_EYEBROWS[activeIndex]}
                   </span>
                 </div>
 

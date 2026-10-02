@@ -1,7 +1,12 @@
 import { useEffect, useState } from "react";
 import "./Header.css";
 
-const LINKS = [
+type NavLink = {
+  id: string;
+  label: string;
+};
+
+const LINKS: NavLink[] = [
   { id: "sketch", label: "Sketch" },
   { id: "benefits", label: "Benefits" },
   { id: "benefits-gallery", label: "Gallery" },
@@ -9,7 +14,7 @@ const LINKS = [
 ];
 
 export default function Header() {
-  const [activeId, setActiveId] = useState(LINKS[0].id);
+  const [activeId, setActiveId] = useState<string>(LINKS[0].id);
 
   useEffect(() => {
     const ids = LINKS.map((link) => link.id);

@@ -1,11 +1,28 @@
 import { useEffect, useMemo, useRef } from 'react'
 import './BenefitsGallery.css'
 
-function clamp(value, min, max) {
+export type GalleryImageInput = string | { src: string; alt?: string; caption?: string }
+
+type GalleryImage = { src: string; alt?: string; caption?: string }
+
+type BenefitsGalleryProps = {
+  images?: GalleryImageInput[]
+  eyebrow?: string
+  title?: string
+  subtitle?: string
+}
+
+function clamp(value: number, min: number, max: number): number {
   return Math.min(max, Math.max(min, value))
 }
 
-function smoothDamp(current, target, velocity, smoothTime, dt) {
+function smoothDamp(
+  current: number,
+  target: number,
+  velocity: number,
+  smoothTime: number,
+  dt: number,
+): [number, number] {
   const st = Math.max(0.0001, smoothTime)
   const omega = 2 / st
   const x = omega * dt
@@ -30,12 +47,12 @@ export default function BenefitsGallery({
   eyebrow = '',
   title = '',
   subtitle,
-}) {
-  const sectionRef = useRef(null)
-  const overlayRef = useRef(null)
-  const heroRef = useRef(null)
-  const heroTrackRef = useRef(null)
-  const thumbsRef = useRef([])
+}: BenefitsGalleryProps) {
+  const sectionRef = useRef<HTMLElement>(null)
+  const overlayRef = useRef<HTMLDivElement>(null)
+  const heroRef = useRef<HTMLDivElement>(null)
+  const heroTrackRef = useRef<HTMLDivElement>(null)
+  const thumbsRef = useRef<(HTMLDivElement | null)[]>([])
   const targetRef = useRef(0)
   const currentRef = useRef(0)
   const velocityRef = useRef(0)
@@ -43,7 +60,7 @@ export default function BenefitsGallery({
   const rafRef = useRef(0)
   const scrollProgressRef = useRef(0)
 
-  const images = useMemo(
+  const images = useMemo<GalleryImage[]>(
     () =>
       (imagesProp || []).map((item) =>
         typeof item === 'string' ? { src: item, alt: '' } : item,
@@ -53,7 +70,7 @@ export default function BenefitsGallery({
   const maxIndex = Math.max(0, images.length - 1)
   const galleryVh = Math.max(380, images.length * 42)
 
-  const setThumbEl = (el, index) => {
+  const setThumbEl = (el: HTMLDivElement | null, index: number) => {
     thumbsRef.current[index] = el
   }
 
@@ -88,7 +105,7 @@ export default function BenefitsGallery({
     const THUMB_GAP = 18
     timeRef.current = performance.now()
 
-    const render = (now) => {
+    const render = (now: number) => {
       const dt = clamp((now - timeRef.current) / 1000, 0, 0.032)
       timeRef.current = now
 
@@ -114,7 +131,7 @@ export default function BenefitsGallery({
       const current = currentRef.current
 
       for (let i = 0; i < track.children.length; i += 1) {
-        const slide = track.children[i]
+        const slide = track.children[i] as HTMLElement
         slide.style.width = `${frameW}px`
         slide.style.flexBasis = `${frameW}px`
       }
@@ -123,7 +140,7 @@ export default function BenefitsGallery({
 
       thumbsRef.current.forEach((el, index) => {
         if (!el) return
-        const media = el.firstElementChild
+        const media = el.firstElementChild as HTMLElement | null
         const dist = index - current
         const abs = Math.abs(dist)
         const dir = abs < 0.0001 ? 0 : Math.sign(dist)

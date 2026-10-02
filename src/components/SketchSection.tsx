@@ -1,7 +1,9 @@
-import { useEffect, useRef, useState } from 'react'
+import { useEffect, useRef, useState, type CSSProperties } from 'react'
 import './SketchSection.css'
 
-const LETTERS = [
+type Letter = { src: string; char: string }
+
+const LETTERS: Letter[] = [
   { src: '/new-text/text-1.png?v=2', char: 'T' },
   { src: '/new-text/text-2.png?v=2', char: 'H' },
   { src: '/new-text/text-3.png?v=2', char: 'E' },
@@ -14,30 +16,26 @@ const LETTERS = [
 const MARK_LOGO = '/new-text/main-logo.png?v=2'
 const BOTTOM_TEXT = '/new-text/bottom-text.png?v=2'
 
-function clamp(value, min, max) {
+function clamp(value: number, min: number, max: number): number {
   return Math.min(max, Math.max(min, value))
 }
 
-function range(progress, start, end) {
+function range(progress: number, start: number, end: number): number {
   if (end <= start) return progress >= end ? 1 : 0
   return clamp((progress - start) / (end - start), 0, 1)
 }
 
-function easeOutCubic(t) {
+function easeOutCubic(t: number): number {
   return 1 - (1 - t) ** 3
 }
 
-function easeOutBack(t) {
+function easeOutBack(t: number): number {
   const c1 = 1.70158
   const c3 = c1 + 1
   return 1 + c3 * (t - 1) ** 3 + c1 * (t - 1) ** 2
 }
 
-function easeOutExpo(t) {
-  return t === 1 ? 1 : 1 - 2 ** (-10 * t)
-}
-
-function letterMotion(progress, index) {
+function letterMotion(progress: number, index: number): CSSProperties {
   const word = index < 3 ? 0 : 1
   const local = word === 0 ? index : index - 3
   const fromCenter = local - (word === 0 ? 1 : 1.5)
@@ -72,7 +70,7 @@ function letterMotion(progress, index) {
 }
 
 export default function SketchSection() {
-  const sectionRef = useRef(null)
+  const sectionRef = useRef<HTMLElement>(null)
   const [progress, setProgress] = useState(0)
 
   useEffect(() => {
@@ -125,7 +123,7 @@ export default function SketchSection() {
     >
       <div
         className="sketch-sticky"
-        style={{ '--sketch-black': String(blackIn) }}
+        style={{ '--sketch-black': String(blackIn) } as CSSProperties}
       >
         <div className="sketch-layout">
           <aside
