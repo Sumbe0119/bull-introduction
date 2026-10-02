@@ -1,0 +1,56 @@
+/*
+ * Soup selector sizing.
+ * Every size is derived from the free space of .soup-stage (container query units),
+ * so the section always fits inside one screen height.
+ */
+
+.soup-stage {
+  container-type: size;
+}
+
+.soup-ring {
+  /* Half the width of a soup label */
+  --lw: 44px;
+
+  /*
+   * Label radius. Limited by the height (labels above / below the pot)
+   * and by the width (labels left / right of the pot).
+   */
+  --r: max(90px, min(50cqh - 34px, 50cqw - var(--lw) - 8px));
+
+  /* Visible pot radius: 74% of the ring, but always clear of the side labels */
+  --pot-r: max(50px, min(var(--r) * 0.74, var(--r) - var(--lw) - 10px));
+}
+
+@media (min-width: 768px) {
+  .soup-ring {
+    --lw: 75px;
+  }
+}
+
+.soup-line-outer {
+  width: calc(var(--r) * 2 - 60px);
+  height: calc(var(--r) * 2 - 60px);
+}
+
+.soup-line-inner {
+  width: calc(var(--r) * 1.78 - 60px);
+  height: calc(var(--r) * 1.78 - 60px);
+}
+
+.soup-label {
+  width: calc(var(--lw) * 2);
+}
+
+.soup-label-pos {
+  transform: translate(-50%, -50%) rotate(var(--angle)) translateY(calc(-1 * var(--r)));
+}
+
+/*
+ * The pot images are 16:9 with wide transparent margins.
+ * The visible pot is about 43% of the box width, so box = pot radius / 0.4335.
+ */
+.soup-pot {
+  width: calc(var(--pot-r) * 2.307);
+  height: calc(var(--pot-r) * 2.307);
+}

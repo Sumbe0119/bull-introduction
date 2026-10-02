@@ -112,7 +112,7 @@ export default function ManagersSection() {
 
       <div className="relative z-10 flex min-h-screen flex-col gap-10 px-5 pb-16 pt-36 md:px-8 lg:flex-row lg:items-center lg:gap-8 lg:px-10 lg:pt-32">
         {/* LEFT — active manager info */}
-        <div className="flex w-full flex-col justify-center lg:w-[34%] lg:shrink-0">
+        <div className="flex w-full flex-col justify-center lg:w-[28%] lg:shrink-0">
           <h2 className="font-serif text-[clamp(2rem,3.6vw,3.25rem)] leading-[0.95] tracking-[-0.04em]">
             Манай
             <span className="block italic text-[#FF3B42]">менежерүүд</span>
@@ -141,8 +141,8 @@ export default function ManagersSection() {
         </div>
 
         {/* RIGHT — fanned photo cards */}
-        <div className="flex flex-1 items-center overflow-x-auto overflow-y-hidden lg:overflow-hidden">
-          <div className="flex h-[420px] items-center md:h-[520px]">
+        <div className="flex flex-1 items-center overflow-x-auto overflow-y-hidden [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
+          <div className="flex h-[560px] items-center md:h-[660px]">
             {MANAGERS.map((manager, index) => {
               const isActive = index === active;
 
@@ -157,12 +157,12 @@ export default function ManagersSection() {
                   aria-label={`${manager.name}, ${manager.role}`}
                   aria-pressed={isActive}
                   animate={{
-                    width: isActive ? 230 : 110,
-                    height: isActive ? 460 : 390,
+                    width: isActive ? 320 : 140,
+                    height: isActive ? 620 : 540,
                     opacity: isActive ? 1 : 0.65,
                   }}
                   transition={{ type: 'spring', stiffness: 180, damping: 22 }}
-                  className="group relative -ml-[18px] cursor-pointer overflow-hidden bg-neutral-900 first:ml-0 [clip-path:polygon(18%_0,100%_0,82%_100%,0_100%)]"
+                  className="group relative -ml-[26px] shrink-0 cursor-pointer overflow-hidden bg-neutral-900 first:ml-0 [clip-path:polygon(18%_0,100%_0,82%_100%,0_100%)]"
                 >
                   <motion.img
                     src={manager.image}
@@ -180,20 +180,20 @@ export default function ManagersSection() {
                   <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-transparent to-black/20" />
 
                   {/* name + role at bottom */}
-                  <div className="absolute inset-x-0 bottom-0 flex flex-col items-center px-6 pb-8 text-center">
+                  <div className="absolute inset-x-0 bottom-0 flex flex-col items-center px-8 pb-10 text-center">
                     <motion.span
                       animate={{ opacity: isActive ? 1 : 0, y: isActive ? 0 : 6 }}
-                      className="text-[8px] font-semibold uppercase tracking-[0.25em] text-[#FF3B42]"
+                      className="text-[9px] font-semibold uppercase tracking-[0.25em] text-[#FF3B42] md:text-[10px]"
                     >
                       {manager.role}
                     </motion.span>
                     <motion.h4
                       animate={{ opacity: isActive ? 1 : 0.85, scale: isActive ? 1 : 0.9 }}
-                      className="mt-2 max-w-[150px] text-[11px] font-semibold leading-tight tracking-wide text-white md:text-sm"
+                      className="mt-2 max-w-[220px] text-sm font-semibold leading-tight tracking-wide text-white md:text-lg"
                     >
                       {manager.name}
                     </motion.h4>
-                    {isActive && <span className="mt-3 block h-[2px] w-7 bg-[#C71920]" />}
+                    {isActive && <span className="mt-4 block h-[2px] w-9 bg-[#C71920]" />}
                   </div>
 
                   {isActive && (
